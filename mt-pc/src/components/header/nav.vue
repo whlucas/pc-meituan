@@ -88,7 +88,7 @@
                         <dd>
                             <router-link to="/">热门影院</router-link>
                         </dd>
-                        <dd>
+                        <dd>                                                                                   
                             <router-link to="/">受期待电影</router-link>
                         </dd>
                         <dd>

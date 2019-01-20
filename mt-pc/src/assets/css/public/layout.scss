@@ -2,7 +2,12 @@
     width: 1190px;
     margin: 0 auto;
     padding: 0;
-    overflow: unset;
+    overflow: visible;
+}
+
+.el-main{
+    overflow: visible !important;
+    margin-top: -50px;
 }
 
 .el-header{

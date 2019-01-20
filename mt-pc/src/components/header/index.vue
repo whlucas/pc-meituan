@@ -25,6 +25,6 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    @import "@/assets/css/public/header/topbar.scss";
 </style>

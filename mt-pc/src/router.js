@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import defaultPage from '@/layout/default'
 import blankPage from '@/layout/blank'
+import Index from '@/page/index'
+// import goodsList from '@/page/goodsList'
 
 Vue.use(Router);
 
@@ -12,7 +14,23 @@ export default new Router({
         {
             path: '/',
             name: 'defaultPage',
-            component: defaultPage
+            component: defaultPage,
+
+            // 重定向一下,让他默认就显示这个index页面
+            redirect: '/index',
+
+            // 因为我的页面是放在模板页面里面的
+            // 所以配置路由要放到模板页面的下面
+            children: [{
+                    path: '/index',
+                    name: 'index',
+                    component: Index
+                },
+                {
+                    path: 's/:name',
+                    name: 'goods',
+                    // component: goodsList
+                }]
         },
         {
             path: '/blank',
