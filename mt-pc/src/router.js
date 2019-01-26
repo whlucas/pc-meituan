@@ -3,13 +3,13 @@ import Router from 'vue-router'
 import defaultPage from '@/layout/default'
 import blankPage from '@/layout/blank'
 import Index from '@/page/index'
-// import goodsList from '@/page/goodsList'
+import ChangeCity from '@/page/changeCity'
+import goodsList from '@/page/goodsList'
 
 Vue.use(Router);
 
 export default new Router({
     mode: 'history',
-    base: process.env.BASE_URL,
     routes: [
         {
             path: '/',
@@ -29,7 +29,11 @@ export default new Router({
                 {
                     path: 's/:name',
                     name: 'goods',
-                    // component: goodsList
+                    component: goodsList
+                },{
+                    path: '/changeCity',
+                    name: 'changeCity',
+                    component: ChangeCity
                 }]
         },
         {
