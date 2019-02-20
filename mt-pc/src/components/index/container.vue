@@ -12,7 +12,8 @@
 
         </dl>
         <ul class="ibody">
-            <li v-for="(item, index) in list" :key="index">
+            <!--里面渲染的东西随着kind的值的改变而改变,而kind的值是随着mouseover方法而改变的,所以能达到鼠标移到哪一个就换到哪一个的效果-->
+            <li v-for="(item, index) in resultsData[kind]" :key="index">
                 <el-card :body-style="{ padding: '0px' }" shadow="never">
                     <img :src="item.image"
                          class="image">
@@ -58,44 +59,52 @@
 </template>
 
 <script>
+    import api from '@/api/index.js'
     export default {
         data() {
             return {
                 kind: "all",
-                list: [{
-                    image: "//p1.meituan.net/msmerchant/8071fc2511131749b6aa47c8b1487f08194991.jpg@368w_208h_1e_1c",
-                    title: "哈根达斯（北京西直门凯德店）",
-                    subtitle: "600克派对时刻蛋糕冰淇淋1个，约600克，圆",
-                    price_info: {
-                        current_price: null,
-                        old_price: null,
-                        // 如果数据里面有人均价格就显示人均的价格
-                        avg_price: 18,
-                        units: '人'
-                    },
-                    // 在数据里面设置一个标志,如果他卖完了就显示0
-                    rentNum: 10,
-                    address: '西直门/动物园'
-                },
-                    {
-                        image: "//p0.meituan.net/mogu/fc091566222b23c51857ab4316633e43370925.jpg@368w_208h_1e_1c",
-                        title: "祈年八号中餐厅",
-                        subtitle: "超值十人套餐一份",
-                        price_info: {
-                            current_price: 2388,
-                            old_price: 3688,
-                            avg_price: null,
-                            units: null
-                        },
-                        rentNum: 0,
-                        address: '崇文门新世界'
-                    }]
+                resultsData: {},
+                // list: [{
+                //     image: "//p1.meituan.net/msmerchant/8071fc2511131749b6aa47c8b1487f08194991.jpg@368w_208h_1e_1c",
+                //     title: "哈根达斯（北京西直门凯德店）",
+                //     subtitle: "600克派对时刻蛋糕冰淇淋1个，约600克，圆",
+                //     price_info: {
+                //         current_price: null,
+                //         old_price: null,
+                //         // 如果数据里面有人均价格就显示人均的价格
+                //         avg_price: 18,
+                //         units: '人'
+                //     },
+                //     // 在数据里面设置一个标志,如果他卖完了就显示0
+                //     rentNum: 10,
+                //     address: '西直门/动物园'
+                // },
+                //     {
+                //         image: "//p0.meituan.net/mogu/fc091566222b23c51857ab4316633e43370925.jpg@368w_208h_1e_1c",
+                //         title: "祈年八号中餐厅",
+                //         subtitle: "超值十人套餐一份",
+                //         price_info: {
+                //             current_price: 2388,
+                //             old_price: 3688,
+                //             avg_price: null,
+                //             units: null
+                //         },
+                //         rentNum: 0,
+                //         address: '崇文门新世界'
+                //     }]
             }
         },
         // 子组件接收父组件传过来的值
         props: [
             'nav'
         ],
+        created() {
+            api.getresultsByKeywords().then(res => {
+                console.log(res);
+                this.resultsData = res.data.data;
+            })
+        },
         methods: {
             over(e) {
                 // 我通过拿到我这个事件源对象e.target,在我指的扎个dom里面去找这个dom的data-type属性,通过这个属性值来给修改kind的值

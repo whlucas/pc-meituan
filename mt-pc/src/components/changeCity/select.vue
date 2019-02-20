@@ -9,7 +9,7 @@
                 <h2>{{title}}</h2>
                 <div class="wrapper">
                     <div class="col">
-                        <span :class="{'mt-item': true , 'active': item === value}"  v-for="(item, index) in list" :key="index" @click="changeValue(item)">{{item}}</span>
+                        <span :class="{'mt-item': true , 'active': item.provinceName === value}"  v-for="(item, index) in list" :key="index" @click="changeValue(item)">{{item.provinceName}}</span>
                     </div>
                 </div>
             </div>
@@ -31,6 +31,13 @@
             "value",
             "showWrapperActive"
         ],
+
+        // 我需要对我的数据按照列展示,这里需要拿到我的省份数据进行计算
+        computed: {
+            renderList: function () {
+
+            }
+        },
         methods:{
             // 我现在有一个需求是,这个两个组件只能显示一个,点一个另外一个就会消失,需要让这两个组件产生联系,第一种方式是父子组件传值的方式,这里先实现这一种
 

@@ -31,7 +31,7 @@
 
 <script>
     import MSelect from './select.vue'
-
+    import api from '@/api/index.js'
     export default {
         components: {
             MSelect
@@ -48,7 +48,11 @@
                 searchWord: '',
                 loading: false
             }
-
+        },
+        created() {
+            api.getProvinceList().then(res => {
+                this.provinceList = res.data.data;
+            })
         },
         methods: {
             changeProvinceActive(flag) {
