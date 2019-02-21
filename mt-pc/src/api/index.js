@@ -27,6 +27,18 @@ let api = {
     },
     getProvinceList() {
         return axios.get('/api/meituan/city/province.json');
+    },
+    getCurrentPosition() {
+        return axios.get('/api/meituan/city/getPosition.json');
+    },
+    getCityList() {
+        return axios.get('/api/meituan/city/cityList.json');
+    },
+    login(params) {
+        // 因为给后端传数据的时候,参数是在params属性下,如果我把params包在{}里面传数据,在页面里面就不用再写一遍params了,直接一个对象里面写参数就行了
+        // return axios.get('/api/meituan/login', {params});
+        // 但是如果我是这么写的,我在页面里面传params的时候就要一个对象里面包一个params属性.这个属性又是一个对象,对象里面写穿的参数
+        return axios.get('/api/meituan/login', params);
     }
 };
 

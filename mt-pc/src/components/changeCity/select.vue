@@ -1,15 +1,17 @@
 <template>
     <!--这里定义一个下拉框-->
-    <div class="choose-wrap" @click="showWrapper" v-document-click="documentClick">
+    <!--通过disable值来添加类名判断需不需要展示下拉框-->
+    <div :class="['choose-wrap', disabled? 'disabled': '']" @click="showWrapper" v-document-click="documentClick">
         <div class="choose">
             <span>{{value}}</span>
             <i class="el-icon-caret-bottom"></i>
             <!--给这div动态添加class类名,其中mt-content是必须要有的样式,直接设置为true, 第二个active为数据驱动-->
             <div :class="{'mt-content': true, 'active': showWrapperActive}">
                 <h2>{{title}}</h2>
-                <div class="wrapper">
-                    <div class="col">
-                        <span :class="{'mt-item': true , 'active': item.provinceName === value}"  v-for="(item, index) in list" :key="index" @click="changeValue(item)">{{item.provinceName}}</span>
+                <!--依据我传过来的className在css里面设置样式-->
+                <div :class="['wrapper', className]">
+                    <div class="col" v-for="(listData, index) in renderList" :key="index">
+                        <span :class="{'mt-item': true , 'active': item.name === value}"  v-for="(item, index) in listData" :key="index" @click="changeValue(item)">{{item.name}}</span>
                     </div>
                 </div>
             </div>
@@ -29,13 +31,23 @@
             "list",
             "title",
             "value",
-            "showWrapperActive"
+            "showWrapperActive",
+            "disabled",
+            "className"
         ],
 
         // 我需要对我的数据按照列展示,这里需要拿到我的省份数据进行计算
         computed: {
             renderList: function () {
-
+                // 对数据的个数/12向上取整看一下有几列
+                let col = Math.ceil(this.list.length / 12);
+                let resultList = [];
+                for (let i = 0; i < col; i++){
+                    // 从原数据里面截取数据
+                    let data = this.list.slice(i * 12, i * 12 + 12);
+                    resultList.push(data);
+                }
+                return resultList;
             }
         },
         methods:{
@@ -45,9 +57,12 @@
             showWrapper(e) {
                 // 我想要阻止一下事件冒泡,因为我点击这个框的时候也会点击到document
                 e.stopPropagation();
-                // this.showWrapperActive = true
-                // 子组件调用父组件里面的事件
-                this.$emit('change_active', true)
+                // 点击的时候判断一下,如果disabled为false才让他触发之后的东西
+                if (!this.disabled){
+                    // this.showWrapperActive = true
+                    // 子组件调用父组件里面的事件
+                    this.$emit('change_active', true)
+                }
             },
             documentClick() {
                 this.$emit('change_active', false)

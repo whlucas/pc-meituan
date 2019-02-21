@@ -12,13 +12,14 @@
             <dt>{{index}}</dt>
             <!--然后我再循环我item里面的每一项-->
             <dd>
-                <span v-for="(city, i) in item" :key="city.id">{{city.name}}</span>
+                <span v-for="(city, i) in item" :key="city.id" @click="changeCity(city)">{{city.name}}</span>
             </dd>
         </dl>
     </div>
 </template>
 
 <script>
+    import api from '@/api/index.js'
     export default {
         data() {
             return{
@@ -30,56 +31,65 @@
         // 生命周期函数created
         // 我这里要把我拿到的数据按照首字母进行分组,所以写在生命周期函数里面
         created() {
-            let data = [{
-                "ID": 1,
-                "name": "北京",
-                "pinyin": "beijing",
-                "acronym": "bj",
-                "rank": "S",
-                "firstChar": "b"
-            },{
-                "ID": 10,
-                "name": "上海",
-                "pinyin": "shanghai",
-                "acronym": "sh",
-                "rank": "S",
-                "firstChar": "s"
-            },{
-                "ID": 20,
-                "name": "广州",
-                "pinyin": "guangzhou",
-                "acronym": "gz",
-                "rank": "S",
-                "firstChar": "G"
-            },{
-                "ID": 30,
-                "name": "深圳",
-                "pinyin": "shenzheng",
-                "acronym": "sh",
-                "rank": "S",
-                "firstChar": "s"
-            },{
-                "ID": 59,
-                "name": "成都",
-                "pinyin": "chengdu",
-                "acronym": "cd",
-                "rank": "S",
-                "firstChar": "c"
-            }];
-            // obj就是最后放我分好类的数据
-            let obj = {};
-            // 遍历数组如果obj里面没有data某一项的firstChar,在obj的这一项创建一个数组进行压数据
-            data.forEach((item, index) => {
-                // 转换成大写
-                if(!obj[item.firstChar.toUpperCase()]){
-                    obj[item.firstChar.toUpperCase()] = []
-                }
-                obj[item.firstChar.toUpperCase()].push(item);
+            api.getCityList().then(res => {
+                // obj就是最后放我分好类的数据
+                let obj = {};
+                // 遍历数组如果obj里面没有data某一项的firstChar,在obj的这一项创建一个数组进行压数据
+                res.data.data.forEach((item, index) => {
+                    // 转换成大写
+                    if(!obj[item.firstChar.toUpperCase()]){
+                        obj[item.firstChar.toUpperCase()] = []
+                    }
+                    obj[item.firstChar.toUpperCase()].push(item);
+                });
+                // 把我这个obj存一下
+                this.cityGroup = obj;
             });
-            // 把我这个obj存一下
-            this.cityGroup = obj;
+            // let data = [{
+            //     "ID": 1,
+            //     "name": "北京",
+            //     "pinyin": "beijing",
+            //     "acronym": "bj",
+            //     "rank": "S",
+            //     "firstChar": "b"
+            // },{
+            //     "ID": 10,
+            //     "name": "上海",
+            //     "pinyin": "shanghai",
+            //     "acronym": "sh",
+            //     "rank": "S",
+            //     "firstChar": "s"
+            // },{
+            //     "ID": 20,
+            //     "name": "广州",
+            //     "pinyin": "guangzhou",
+            //     "acronym": "gz",
+            //     "rank": "S",
+            //     "firstChar": "G"
+            // },{
+            //     "ID": 30,
+            //     "name": "深圳",
+            //     "pinyin": "shenzheng",
+            //     "acronym": "sh",
+            //     "rank": "S",
+            //     "firstChar": "s"
+            // },{
+            //     "ID": 59,
+            //     "name": "成都",
+            //     "pinyin": "chengdu",
+            //     "acronym": "cd",
+            //     "rank": "S",
+            //     "firstChar": "c"
+            // }];
+
         },
-        // methods() {}
+        methods: {
+            // 同样需要在点击的时候跟新位置信息,进行跳转,自己页面里面的函数要自己写
+            changeCity(item) {
+                 this.$store.dispatch('setPosition', item);
+                 this.$router.push({name:'index'});
+            }
+        }
     }
 </script>
 

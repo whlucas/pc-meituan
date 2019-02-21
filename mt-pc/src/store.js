@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        position: '北京'
+        position: {}
     },
     // 严格模式要求修改我state里面的属性必须要在mutations里面定义函数修改
     mutations: {

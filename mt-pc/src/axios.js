@@ -7,7 +7,7 @@ axios.defaults.baseURL = 'http://api.duyiedu.com';
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // 这个config就是我请求回来的东西,我打印出来看一下
-    console.log(config);
+    // console.log(config);
 
     // 如果我要对我这个axios进行一些配置
     config.params = {

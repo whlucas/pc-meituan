@@ -6,10 +6,14 @@
         <!--还有一个需求是子组件选择一个城市或者省份就切换成哪一个省份,需要子组件点击后触发父组件的事件,改变父组件里面的值在传回给子组件-->
         <m-select :list="provinceList" title="省份" :value="province" :showWrapperActive="provinceActive"
                   @change_active="changeProvinceActive"
-                  @change="changeProvince"/>
+                  @change="changeProvince"
+                  className="province"/>
+        <!--:disabled控制可不可以点击-->
         <m-select :list="cityList" title="城市" :value="city" :showWrapperActive="cityActive"
                   @change_active="changeCityActive"
-                  @change="changeCity"/>
+                  @change="changeCity"
+                  :disabled="cityDisabled"
+                  className="city"/>
         <span>直接搜索: </span>
         <el-select
                 v-model="searchWord"
@@ -40,18 +44,25 @@
             return {
                 provinceList: ["山东", "甘肃", "黑龙江", "浙江", "新疆", "辽宁"],
                 province: "省份",
-                cityList: ["哈尔滨", "克拉玛依", "乌鲁木齐", "喀什", "牡丹江", "鹤岗"],
+                cityList: [],
                 city: "城市",
                 provinceActive: false,
                 cityActive: false,
                 searchList: ["哈尔滨", "克拉玛依", "乌鲁木齐", "喀什", "牡丹江", "鹤岗"],
                 searchWord: '',
-                loading: false
+                loading: false,
+                cityDisabled: true
             }
         },
         created() {
             api.getProvinceList().then(res => {
-                this.provinceList = res.data.data;
+                this.provinceList = res.data.data.map((item) => {
+                    // 由于我的插件里面用到的是name,而插件需要重复利用,不能改,所以要配置数据来适应插件
+                    // 这里把属性名provinceName改成name
+                    item.name = item.provinceName;
+                    // 注意要记得返回
+                    return item;
+                })
             })
         },
         methods: {
@@ -72,11 +83,21 @@
                 // 这个e就是我输入的值,把这个值发给后端,后端给我们返回相应的值
                 console.log(e)
             },
-            changeProvince(value) {
-                this.province = value
+            changeProvince(item) {
+                // 改变省份的时候让选择城市可以点击
+                this.cityDisabled = false;
+                this.province = item.name;
+                // 点击了之后我的这个cityList的值就变成了我点的那个里面的值了
+                this.cityList = item.cityInfoList;
             },
-            changeCity(value) {
-                this.city = value
+            changeCity(item) {
+                this.city = item.name;
+
+                // 点击城市的时候,在最上方做一个城市的切换,需要修改store里面的数据
+                this.$store.dispatch('setPosition', item);
+
+                // 点击完事了以后我要跳转页面如何实现,直接用$route.push这个方法,后面接要跳转的页面
+                this.$router.push({name: 'index'})
             },
         }
     }

@@ -101,7 +101,7 @@
         ],
         created() {
             api.getresultsByKeywords().then(res => {
-                console.log(res);
+                // console.log(res);
                 this.resultsData = res.data.data;
             })
         },

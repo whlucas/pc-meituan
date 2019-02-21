@@ -54,6 +54,14 @@
         }
         .reg {
           padding-top: 10px;
+          font-size: 14px;
+          a{
+            margin-left: 5px;
+            text-decoration: none;
+            &:hover{
+              text-decoration: underline;
+            }
+          }
         }
         .signup-guide {
           font-size: 14px;
@@ -98,7 +106,7 @@
               background-position: -1250px -599px;
               background-image: url(//s0.meituan.net/bs/file/?f=fe-sso-fs:build/assets/sp-normal.2ee5c09.png);
             }
-           
+
         }
 
       }
@@ -116,7 +124,11 @@
         }
 
       }
-
+      error {
+        imput{
+          border-color: red;
+        }
+      }
       .el-input__icon {
         &.profile {
           &:after {
@@ -177,7 +189,7 @@
               padding-left: 10px;
             }
           }
-          
+
         }
       }
       >p {

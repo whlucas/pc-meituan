@@ -23,6 +23,10 @@
         float: right;
         height: 36px;
         line-height: 36px;
+        span{
+          font-size: 11px;
+          margin-right: 10px;
+        }
         a {
           padding: 5px 10px;
           background-color: #2db3a6;
@@ -47,7 +51,48 @@
     min-height: 300px;
     padding-right: 550px;
     box-sizing: border-box;
-
+    .pw-strength{
+      position: relative;
+      width:330px;
+      top: 10px;
+      left: 0px;
+      background: #eee;
+      .bar{
+        background: #d3ebee;
+        height: 20px;
+        width: 0;
+        overflow: hidden;
+        transiton: all .4s linear;
+        &.weak{
+          width: 108px;
+          background: #f76120;
+        }
+        &.normal{
+          width: 218px;
+          background: #ff8900;
+        }
+        &.strong{
+          width: 330px;
+          background: #5bab3c;
+        }
+      }
+      .letter{
+        position: absolute;
+        top: 0;
+        left: 0;
+        span{
+          display: block;
+          float: left;
+          text-align: center;
+          font-size: 12px;
+          height: 20px;
+          line-height: 20px;
+          width:108px;
+          border-right: 2px solid #fff;
+          color: #fff;
+        }
+      }
+    }
     .status {
       font-size: 12px;
       margin-left: 20px;
