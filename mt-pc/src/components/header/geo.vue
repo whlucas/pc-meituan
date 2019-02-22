@@ -10,7 +10,8 @@
                 <a href="" v-for="(item, index) in nearCity" :key="index">{{  item.name}}</a>
             ]
         </div>
-        <div class="m-user">
+        <!--当我vuex里面的没有存用户信息的时候显示这个,当我存了用户信息的时候代表已经登录过了就显示用户信息-->
+        <div class="m-user" v-if="!$store.state.userName">
             <router-link class="login" :to="{name: 'login'}">
                 立即登录
             </router-link>

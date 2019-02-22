@@ -5,12 +5,17 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        position: {}
+        position: {},
+        userName: '',
+
     },
     // 严格模式要求修改我state里面的属性必须要在mutations里面定义函数修改
     mutations: {
         setPosition(state, value) { // 第一个参数为了拿到我state里面的值,第二个参数就是我改变的时候传过来需要改变的值
             state.position = value
+        },
+        setUserName(state, val){
+            state.userName = val
         }
     },
     // 因为获取地理位置信息是一个异步的过程,我们可以通过actions来获取

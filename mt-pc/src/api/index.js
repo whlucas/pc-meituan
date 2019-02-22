@@ -39,6 +39,9 @@ let api = {
         // return axios.get('/api/meituan/login', {params});
         // 但是如果我是这么写的,我在页面里面传params的时候就要一个对象里面包一个params属性.这个属性又是一个对象,对象里面写穿的参数
         return axios.get('/api/meituan/login', params);
+    },
+    register(params) {
+        return axios.get('/api/meituan/register', params);
     }
 };
 

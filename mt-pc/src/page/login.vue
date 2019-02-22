@@ -95,6 +95,10 @@
                     // 如果验证成功就跳转页面
                     if (res.data.status === 'success'){
                         this.$router.push({name: 'index'})
+
+                        // 如果登录了,我需要把我的用户名显示在相应的地方,所以需要把用户名存到vuex里面
+                        // 这个修改值的方法没有放到actions里面,所以就可以直接用conmit来传
+                        this.$store.commit('setUserName', this.userName)
                     }else {
                         // 如果没有验证成功就提示错误信息
                         this.error = res.data.msg
